@@ -1,4 +1,9 @@
 const express = require("express");
 const cors = require("cors");
-const { MongoClient, ServerApiVersion } = require('mongodb');
+
 const app = express();
+
+
+// middleware
+app.use(cors());
+app.use(express.json());
