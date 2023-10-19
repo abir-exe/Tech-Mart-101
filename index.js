@@ -43,6 +43,13 @@ async function run() {
         res.send(result);
       })
 
+      // get data endpoint 
+
+    app.get("/users", async(req, res) => {
+        const result = await userCollection.find().toArray();
+        console.log(result);
+        res.send(result);
+      })
 
 
     // Send a ping to confirm a successful connection
