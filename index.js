@@ -59,7 +59,7 @@ async function run() {
           _id: new ObjectId(id),
         };
         const result = await userCollection.findOne(query);
-        res.send(result);
+        res.send(result);  
       });
 
       // update single user
