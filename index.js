@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const app = express();
 
 
@@ -50,6 +50,43 @@ async function run() {
         console.log(result);
         res.send(result);
       })
+
+      // Get Single data using id (UPDATE endpoint)
+    app.get("/users/:id", async (req, res) => {
+        const id = req.params.id;
+        console.log("id", id);
+        const query = {
+          _id: new ObjectId(id),
+        };
+        const result = await userCollection.findOne(query);
+        res.send(result);
+      });
+
+      // update single user
+    app.put("/users/:id", async (req, res) => {
+        const id = req.params.id;
+        const data = req.body;
+        const filter = {
+          _id: new ObjectId(id),
+        };
+        const options = { upsert: true };
+        const updatedData = {
+          $set: {
+            name : data.name,
+      brandName: data.brandName,
+      image: data.image,
+      price: data.price,
+      description: data.description,
+          },
+        };
+        const result = await userCollection.updateOne(
+          filter,
+          updatedData,
+          options
+        );
+        res.send(result)
+      });
+  
 
 
     // Send a ping to confirm a successful connection
