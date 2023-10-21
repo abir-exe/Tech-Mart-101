@@ -8,8 +8,13 @@ const app = express();
 // qb1AYVwZjlPWW4YZ
 
 // middleware
-app.use(cors());
-app.use(express.json());
+app.use(express.json())
+const corsConfig = {
+  origin: '*',
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE']
+}
+app.use(cors(corsConfig));
 
 const port = process.env.PORT || 5000;
 
