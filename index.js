@@ -31,6 +31,8 @@ async function run() {
     await client.connect();
 
     const userCollection = client.db("userDB").collection("users");
+    const cartCollection = client.db("cart").collection("cartItems");
+    
 
     // post single data endpoint	
     app.post("/users", async (req, res) => {
@@ -42,9 +44,18 @@ async function run() {
         console.log(result);
         res.send(result);
       })
-
-      // get data endpoint 
-
+    // post single data endpoint for cart	
+    app.post("/cartItems", async (req, res) => {
+        const cart = req.body;
+  
+        console.log("cart", cart)
+  
+        const result = await cartCollection.insertOne(cart);
+        console.log(result);
+        res.send(result);
+      })
+    
+//get for user
     app.get("/users", async(req, res) => {
         const result = await userCollection.find().toArray();
         console.log(result);
@@ -87,6 +98,15 @@ async function run() {
         res.send(result)
       });
   
+
+      // get cart items 
+      app.get("/cart", async (req, res) => {
+        
+        const cursor = cartCollection.find();
+        
+        const result = await cursor.toArray();
+        res.send(result);  
+      });
 
 
     // Send a ping to confirm a successful connection
